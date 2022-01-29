@@ -16,6 +16,14 @@ customer_orders as (
     group by 1
 ),
 
+customers_payments as (
+    select
+        customer_id,
+        sum(amount) as amount_sum
+    from {{ ref('fct_orders')}}
+    group by 1
+),
+
 final as (
     select 
         customers.customer_id,
@@ -23,10 +31,11 @@ final as (
         customers.last_name,
         customer_orders.first_order_date,
         customer_orders.most_recent_order_date,
-        coalesce(customer_orders.number_of_orders, 0) as number_of_orders
+        coalesce(customer_orders.number_of_orders, 0) as number_of_orders,
+        coalesce(customers_payments.amount_sum, 0) as lifetime_value
     from customers
-
-    left join customer_orders using (customer_id)
+    left join customer_orders on customers.customer_id=customer_orders.customer_id
+    left join customers_payments on customer_orders.customer_id=customers_payments.customer_id
 )
 
 select * from final
