@@ -6,12 +6,54 @@ sources:
       schema: jaffle_shop
       tables:
         - name: customers
+          description: Raw customers data
+          columns: 
+            - name: id
+              description: Primary key for customers
+              tests:
+                - unique
+                - not_null
           loaded_at_field: _etl_loaded_at
           freshness:
             warn_after: {count: 12, period: hour}
             error_after: {count: 24, period: hour}
         - name: orders
+          description: Raw customers data
+          columns: 
+            - name: id
+              description: Primary key for orders
+              tests:
+                - unique
+                - not_null
           loaded_at_field: _etl_loaded_at
           freshness:
             warn_after: {count: 12, period: hour}
             error_after: {count: 24, period: hour}
+
+models:
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values:
+                - shipped
+                - completed
+                - return_pending
+                - placed
+                - returned
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id

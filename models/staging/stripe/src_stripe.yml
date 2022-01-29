@@ -10,3 +10,30 @@ sources:
           freshness:
             warn_after: {count: 12, period: hour}
             error_after: {count: 24, period: hour}
+
+models:
+  - name: stg_payments
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: payment_method
+        tests:
+          - accepted_values:
+              values:
+                - credit_card
+                - coupon
+                - bank_transfer
+                - gift_card
+      - name: status
+        tests:
+          - accepted_values:
+              values:
+                - success
+                - fail
