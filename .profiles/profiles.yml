@@ -1,0 +1,12 @@
+devin_dbt_test:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      threads: 1
+      host: 192.168.31.149
+      port: 5432
+      user: pathway
+      pass: pathway
+      dbname: devin_dbt_sample_data
+      schema: analytics

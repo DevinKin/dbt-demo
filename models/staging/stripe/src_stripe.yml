@@ -3,7 +3,7 @@ version: 2
 sources:
     - name: stripe
       description: A clone of a Postgres application database.
-      database: raw
+      database: devin_dbt_sample_data
       schema: stripe
       tables:
         - name: payment
