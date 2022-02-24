@@ -1,0 +1,12 @@
+devin_dbt_test:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      threads: 1
+      account: pc39183.ap-southeast-1
+      user: iawen
+      password: pAUaHKszM1E85I9D5AL
+      database: ANALYSIS
+      warehouse: COMPUTE_WH
+      schema: public
