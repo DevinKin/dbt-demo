@@ -10,3 +10,4 @@ devin_dbt_test:
       database: ANALYSIS
       warehouse: COMPUTE_WH
       schema: public
+      role: ACCOUNTADMIN
